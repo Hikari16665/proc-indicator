@@ -1,0 +1,76 @@
+# proc-indicator 配置文件
+# 位置: ~/.config/proc-indicator/config.toml
+# 保存后会自动重新加载（大约 0.3 秒内生效），不需要重启程序。
+
+[behavior]
+timeout = 6.0            # 卡片停留秒数，到时后向右滑出屏幕
+slide_in = 0.45          # 新卡片从屏幕右侧滑入的时长（秒，减速曲线）
+slide_out = 0.45         # 到时后向右滑出的时长（秒，加速曲线）
+slide_delay = 0.08       # 新卡片稍等一下再滑入，让旧卡片先上移让出位置（秒）
+move = 0.25              # 其余卡片上移/补位的时长（秒）
+fade_out = 0.8           # 超过 max_cards 被挤掉的卡片渐隐时长（秒）
+max_cards = 5            # 同时最多显示的卡片数，超出时最旧的渐隐消失
+hover_avoid = true       # 鼠标移到卡片上时，卡片向右让开（浮窗本身仍然点击穿透）
+hover_shift = 260        # 让开的距离（像素）
+hover_duration = 0.22    # 让开/回来的动画时长（秒）
+# 光标位置来源：auto = KDE 上用 KWin 脚本，其它 X11 用 XQueryPointer，拿不到就关闭避让；也可写 kwin / x11 / none
+cursor_source = "auto"
+# 要显示的事件类型：create = 进程创建，exec = 已有进程执行新程序，exit = 进程退出
+events = ["create", "exec", "exit"]
+max_events_per_second = 20   # 超过这个速率的事件会合并成一张“合并”卡片
+merge_window_ms = 40         # fork 之后等待 exec 的时间，用来把 fork+exec 合并为一张“创建”卡片
+show_runtime = true          # 退出卡片后面追加进程运行时长
+
+[source]
+# auto: 有权限就用 netlink proc connector（能拿到退出码，不漏短命进程），否则回退到轮询 /proc
+# netlink: 只用 netlink；poll: 只用轮询
+mode = "auto"
+helper = ""              # 留空则自动查找 proc-events-helper
+poll_interval = 0.5      # 轮询模式的扫描间隔（秒）
+
+[appearance]
+card_width = 340
+card_height = 56
+gap = 10                 # 卡片之间的间距
+radius = 6               # 圆角
+glow_size = 14           # 外发光范围（像素）
+glow_strength = 1.0      # 外发光强度 0.0 ~ 2.0
+background_opacity = 0.78
+fill_strength = 1.0      # 卡片内部彩色光晕填充的强度 0.0 ~ 2.0（0 = 只有边缘发光）
+icon_size = 32
+icon_theme = ""          # 留空 = 跟随系统（KDE 下一般是 breeze）；也可以写 "Papirus-Dark" 等
+font = "Sans"            # 例如 "Noto Sans CJK SC"
+title_size = 10.5        # 第一行字号（pt）
+detail_size = 8.5        # 第二行字号（pt）
+margin_right = 10        # 距屏幕右边
+margin_bottom = 10       # 距任务栏/屏幕底部
+monitor = -1             # 显示在第几个显示器（从 0 开始）；-1 = X11 用主显示器，Wayland 由 KWin 决定（通常是当前活动屏幕）
+
+[colors]
+create = "#00e5ff"       # 创建：青色
+exit = "#ff8c1a"         # 退出：橙色
+exec = "#d65cff"         # 执行（exec）：紫色
+merged = "#7d8cff"       # 合并/限流提示
+# 创建卡片的发光颜色轮换（参考视频里青/蓝/绿轮换），留空 = 固定用 create 颜色
+create_cycle = []
+# create_cycle = ["#00e5ff", "#2f7bff", "#39ff88"]
+
+[blacklist]
+use_builtin = true            # 使用内置的 KDE/Arch 默认黑名单
+hide_kernel_threads = true    # 隐藏内核线程（kworker、ksoftirqd……）
+# 下面这些匹配进程名（comm 或可执行文件名）；含 * ? [ ] 的按 glob 匹配，否则精确匹配
+names = []
+# 匹配可执行文件完整路径（glob），例如 "/usr/lib/systemd/*"
+paths = []
+# 匹配完整命令行（glob），例如 "*--type=renderer*"
+cmdlines = []
+# 正则（Python re，search 语义），分别作用于进程名 / 路径 / 命令行
+name_regex = []
+path_regex = []
+cmdline_regex = []
+
+[whitelist]
+# 白名单优先于黑名单：即使命中黑名单也照样显示
+names = []
+paths = []
+cmdlines = []

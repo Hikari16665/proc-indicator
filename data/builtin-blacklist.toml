@@ -1,0 +1,47 @@
+# 内置默认黑名单（KDE Plasma + Arch Linux 常见的后台刷屏进程）
+# 用户配置里 [blacklist] use_builtin = false 可以整体关闭。
+
+names = [
+  # 本程序自身
+  "proc-indicator", "proc-events-hel*",
+  # systemd / 会话基础设施
+  "systemd", "systemd-*", "(sd-*)", "sd-*", "dbus-daemon", "dbus-broker*", "dbus-launch",
+  "udevadm", "(udev-worker)", "polkitd", "polkit-agent-he*", "rtkit-daemon", "upowerd", "udisksd",
+  "accounts-daemon", "packagekitd", "fwupd", "fwupdmgr", "irqbalance", "thermald",
+  "NetworkManager", "nm-dispatcher", "nm-openvpn-serv*", "wpa_supplicant", "dhcpcd", "avahi-daemon",
+  "pacman-key", "ldconfig", "systemd-userwor*", "systemd-userdbd", "systemd-tmpfile*",
+  # 音频 / 多媒体
+  "pipewire", "pipewire-pulse", "wireplumber", "pulseaudio", "pactl",
+  # KDE Plasma 后台服务
+  "kded6", "kded5", "kioworker", "kioslave5", "kio_http_cache_*", "kiod6", "kiod5",
+  "ksmserver", "kactivitymanag*", "kglobalaccel*", "kwalletd6", "kwalletd5", "ksecretd",
+  "baloo_file", "baloo_file_extr*", "baloorunner", "akonadi*", "kdeconnectd",
+  "ksystemstats", "ksgrd_network_*", "kscreen_backend*", "kscreen_osd_ser*", "org_kde_powerd*",
+  "plasma-browser-*", "xdg-desktop-por*", "xdg-document-po*", "xdg-permission-*", "xdg-dbus-proxy",
+  "kwin_wayland_wra*", "Xwayland", "kf6-config", "kbuildsycoca6", "kbuildsycoca5", "kioexec",
+  "drkonqi-coredum*", "DiscoverNotifie*", "kaccess", "kmix", "gmenudbusmenupr*", "xembedsniproxy",
+  "at-spi-bus-laun*", "at-spi2-registr*", "gvfsd*", "gvfs-*", "dconf-service",
+  # 常见的 shell 提示符 / 补全助手
+  "gitstatusd*",
+]
+
+paths = [
+  "/usr/lib/systemd/*",
+  "/usr/lib/polkit-1/*",
+  "/usr/lib/kf6/*",
+  "/usr/lib/kf5/*",
+  "/usr/lib/libexec/kf6/*",
+  "/usr/lib/xdg-*",
+]
+
+cmdlines = [
+  # Chromium / Electron 系浏览器、VS Code 等的子进程
+  "*--type=renderer*", "*--type=gpu-process*", "*--type=utility*", "*--type=zygote*",
+  "*--type=crashpad-handler*", "*chrome_crashpad_handler*",
+  # Firefox 内容进程
+  "*-contentproc*",
+]
+
+name_regex = []
+path_regex = []
+cmdline_regex = []

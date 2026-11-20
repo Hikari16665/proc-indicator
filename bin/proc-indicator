@@ -1,0 +1,9 @@
+#!/bin/sh
+# proc-indicator 启动脚本。安装时 @APPDIR@ 会被替换成实际安装目录；
+# 直接在源码目录里运行时自动使用源码目录。
+APPDIR="@APPDIR@"
+case "$APPDIR" in
+  @*) APPDIR="$(cd "$(dirname "$0")/.." && pwd)" ;;
+esac
+export PYTHONPATH="$APPDIR${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m proc_indicator "$@"

@@ -1,0 +1,17 @@
+[Unit]
+Description=进程事件霓虹指示器 (proc-indicator)
+Documentation=file://@APPDIR@/README.md
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=@BINDIR@/proc-indicator
+Restart=on-failure
+RestartSec=3
+# 低优先级运行，绝不和前台程序抢 CPU
+Nice=10
+
+[Install]
+WantedBy=graphical-session.target

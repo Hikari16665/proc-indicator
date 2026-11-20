@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Proc Indicator
+Name[zh_CN]=进程事件指示器
+Comment=Show process create/exit events with a neon overlay
+Comment[zh_CN]=在屏幕右下角用霓虹卡片显示进程创建/退出事件
+Exec=@BINDIR@/proc-indicator
+Icon=utilities-system-monitor
+Terminal=false
+Categories=System;Monitor;
+StartupNotify=false
+X-KDE-autostart-phase=2
+X-GNOME-Autostart-enabled=true
